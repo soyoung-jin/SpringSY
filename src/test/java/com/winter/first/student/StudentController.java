@@ -10,6 +10,6 @@ public class StudentController {
 	public String getList() {
 		System.out.println("list 가져오기");
 
-		return "student/detail";
+		return "student/list";
 	}
 }
