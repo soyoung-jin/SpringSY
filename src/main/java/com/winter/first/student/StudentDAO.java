@@ -5,47 +5,44 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.springframework.stereotype.Repository;
-
-import com.winter.first.weather.WeatherDTO;
 
 @Repository // 객체 생성 + DAO 역할
 public class StudentDAO {
 
-	public List<WeatherDTO> getList() throws Exception {
+	public List<StudentDTO> getList() throws Exception {
 		System.out.println("DAO getList");
 
-		File file = new File("C:\\study", "weather.txt");
+		File file = new File("C:\\study\\student.txt");
 		FileReader fr = new FileReader(file);// 파일경로를 문자로
 		BufferedReader br = new BufferedReader(fr);// 문자를 문자열로 스캐너랑 비슷
 
-		ArrayList<WeatherDTO> ar = new ArrayList<WeatherDTO>();
+		ArrayList<StudentDTO> list = new ArrayList<StudentDTO>();
 
 		while (true) {
-			// readLine의 리턴값은 무조건 string
-			// 다른 타입으로 받을시엔 형변환 필요
 			String s = br.readLine();
-			if (s == null) {// readLine읽어들인게 없다면 while문 실행x
+			if (s == null) {
 				break;
 			}
-			s = s.replace(",", "-");// 한줄 읽어온 s에다가 ,를 -로 바꿈
-			StringTokenizer st = new StringTokenizer(s, "-");
-			WeatherDTO wDTO = new WeatherDTO();
-			while (st.hasMoreTokens()) {
-				wDTO.setNum(Long.parseLong(st.nextToken().trim()));
-				wDTO.setCity(st.nextToken().trim());
-				wDTO.setGion(Double.parseDouble(st.nextToken().trim()));
-				wDTO.setStatus(st.nextToken().trim());
-				wDTO.setHuminity(Integer.parseInt(st.nextToken().trim()));
-			}
-			ar.add(wDTO);
+			StudentDTO sdto = new StudentDTO();
 
+			String[] ar = s.split("-");
+
+			sdto.setNum(Integer.parseInt(ar[0].trim()));
+			sdto.setName(ar[1].trim());
+			sdto.setKor(Integer.parseInt(ar[2].trim()));
+			sdto.setEng(Integer.parseInt(ar[3].trim()));
+			sdto.setMath(Integer.parseInt(ar[4].trim()));
+			sdto.setTotal(Integer.parseInt(ar[5].trim()));
+			sdto.setAvg(Double.parseDouble(ar[6].trim()));
+
+			list.add(sdto);
 		}
 		br.close();
-		fr.close();
-		return ar;
+		fr.close();// 자원 종료
+
+		return list;
 
 	}
 
