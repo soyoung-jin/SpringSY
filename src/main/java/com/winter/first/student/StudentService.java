@@ -7,6 +7,7 @@ public class StudentService {
 
 	public void getList() {
 		System.out.println("service list");
+
 	}
 
 }
